@@ -10,7 +10,9 @@ class AnimalType extends Model
     use HasFactory;
 
     /**
-     * @var $fillable For bulk data entry
+     * The attributes that are mass assignable.
+     *
+     * @var string[]
      */
     protected $fillable = ['type'];
 

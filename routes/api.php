@@ -20,24 +20,38 @@ use Illuminate\Support\Facades\Route;
 /**
  * AnimalTypes endpoints
  */
-Route::post('type/new', [AnimalTypeController::class, 'store']);
-Route::get('type/list', [AnimalTypeController::class, 'index']);
-Route::get('type/find/{id}', [AnimalTypeController::class, 'find']);
-Route::delete('type/delete/{id}', [AnimalTypeController::class, 'destroy']);
+Route::prefix('type')->group(function () {
+    Route::post('new', [AnimalTypeController::class, 'store']);
+    Route::get('list', [AnimalTypeController::class, 'index']);
+    Route::get('find/{id}', [AnimalTypeController::class, 'find']);
+    Route::put('update/{id}', [AnimalTypeController::class, 'update']);
+    Route::patch('update/{id}', [AnimalTypeController::class, 'update']);
+    Route::delete('delete/{id}', [AnimalTypeController::class, 'destroy']);
+});
+
 
 /**
  * Owner endpoints
  */
-Route::post('owner/new', [OwnerController::class, 'store']);
-Route::get('owner/list', [OwnerController::class, 'index']);
-Route::get('owner/find/{id}', [OwnerController::class, 'find']);
-Route::delete('owner/delete/{id}', [OwnerController::class, 'destroy']);
+Route::prefix('owner')->group(function () {
+
+    Route::post('new', [OwnerController::class, 'store']);
+    Route::get('list', [OwnerController::class, 'index']);
+    Route::get('find/{id}', [OwnerController::class, 'find']);
+    Route::put('update/{id}', [OwnerController::class, 'update']);
+    Route::patch('update/{id}', [OwnerController::class, 'update']);
+    Route::delete('delete/{id}', [OwnerController::class, 'destroy']);
+});
+
 
 /**
  * Pet endpoints
  */
-Route::post('pet/new', [PetController::class, 'store']);
-Route::get('pet/find/{id}', [PetController::class, 'find']);
-Route::get('pet/list', [PetController::class, 'index']);
-Route::put('pet/update/{id}', [PetController::class, 'update']);
-Route::delete('pet/delete/{id}', [PetController::class, 'destroy']);
+Route::prefix('pet')->group(function () {
+    Route::post('new', [PetController::class, 'store']);
+    Route::get('find/{id}', [PetController::class, 'find']);
+    Route::get('list', [PetController::class, 'index']);
+    Route::patch('update/{id}', [PetController::class, 'update']);
+    Route::put('update/{id}', [PetController::class, 'update']);
+    Route::delete('delete/{id}', [PetController::class, 'destroy']);
+});

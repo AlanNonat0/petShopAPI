@@ -6,6 +6,9 @@ use Illuminate\Foundation\Http\FormRequest;
 use App\Models\Pet;
 class PetRequest extends FormRequest
 {
+    
+    use VerifyRules;
+
     /**
      * Determine if the user is authorized to make this request.
      *
@@ -21,13 +24,15 @@ class PetRequest extends FormRequest
      * @return array
      */
     public function rules(){
-        return [
+        $rules = [
             'name' => "required|max:40",
             'age' => "required|numeric",
             'animal' => "required|exists:animal_types,id|integer",
             'breed' => "required",
             'owner' => "required|exists:owners,id|integer"
         ];
+
+        return $this->verifyMethod($rules);
     }
 
     public function messages(){

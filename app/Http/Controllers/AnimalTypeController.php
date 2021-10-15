@@ -14,23 +14,36 @@ class AnimalTypeController extends Controller
         $this->service = new AnimalTypeService();
     }
 
-    function index()
+    public function index()
     {
-        return $this->service->showAll();
+        $data = $this->service->showAll();
+        return response()->json($data['response'],$data['code']);
     }
 
     public function store(AnimalTypeRequest $request)
     {
-        return $this->service->storePetType($request);
+        $data =  $this->service->storePetType($request);
+        return response()->json($data['response'],$data['code']);
     }
 
-    function find($id)
+    public function find($id)
     {
-        return  $this->service->findById($id);
+        $data =   $this->service->findById($id);
+        return response()->json($data['response'],$data['code']);
     }
 
-    function destroy($id)
+    public function update(AnimalTypeRequest $request, $id)
     {
-        return  $this->service->deleteById($id);
+
+        $data =   $this->service->update($request, $id);
+        return response()->json($data['response'],$data['code']);
+    }
+
+
+
+    public function destroy($id)
+    {
+        $data =  $this->service->deleteById($id);
+        return response()->json($data['response'],$data['code']);
     }
 }

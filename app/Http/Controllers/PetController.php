@@ -3,16 +3,16 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\PetRequest;
-use App\Repositories\PetRepository;
+use App\Services\PetService;
 
 class PetController extends Controller
 {
-    /**@var PetRepository $repository Instance of PetRepository */
-    private $repository;
+    /** @var PetService $service Instance of PetService */
+    private $service;
 
     public function __construct()
     {
-        $this->repository = new PetRepository();
+        $this->service = new PetService();
     }
 
     /**
@@ -20,15 +20,9 @@ class PetController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    function index()
+    public function index()
     {
-        $data = $this->repository->all();
-
-        if(isset($data)){
-            return response()->json(['message' => 'success', 'data' => $data]);
-        }
-
-        return response()->json(['message' => 'data does not exist', 'data' => $data]);
+        return $this->service->showAll();
     }
 
     /**
@@ -39,15 +33,7 @@ class PetController extends Controller
      */
     public function store(PetRequest $request)
     {
-
-      $data = $this->repository->create($request->all());
-
-       if(isset($data)){
-           return response()->json(['message' => 'success', 'data' => $data]);
-       }
-
-        return response()->json(['message' => 'data not entered', 'data' => $data]);
-
+        return $this->service->storePet($request);
     }
 
     /**
@@ -56,14 +42,16 @@ class PetController extends Controller
      * @param int $id Identification of a pet
      * @return \Illuminate\Http\Response
      */
-    function find($id)
+    public function find($id)
     {
-        $data = $this->repository->find($id);
+        return $this->service->findById($id);
+    }
 
-        if(isset($data)){
-            return response()->json(['message' => 'success', 'data' => $data]);
-        }
-        return response()->json(['message' => 'data does not exist', 'data' => $data]);
+    public function update(PetRequest $request, $id)
+    {
+
+        $data =   $this->service->update($request, $id);
+        return response()->json($data['response'],$data['code']);
     }
 
     /**
@@ -72,17 +60,8 @@ class PetController extends Controller
      * @param int $id Identification of a pet
      * @return \Illuminate\Http\Response
      */
-    function destroy($id)
+    public function destroy($id)
     {
-        $dataExists = $this->repository->find($id);
-
-        if($dataExists){
-
-            $data = $this->repository->destroy($id);
-            return response()->json(['message' => 'success', 'data' => true]);
-
-        }
-
-        return response()->json(['message' => 'data does not exist', 'data' => false]);
+        return $this->service->deleteById($id);
     }
 }

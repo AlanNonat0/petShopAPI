@@ -23,10 +23,12 @@ class OwnerRequest extends FormRequest
      */
     public function rules()
     {
-        return [
+        $rules = [
             "name" => "required|min:3|max:40",
-            "telephone" => "required|unique:owners,telephone|min:8|max:11"
+            "telephone" => "required|unique:owners,telephone,{$this->id}|min:8|max:11"
         ];
+
+        return $this->verifyMethod($rules);
     }
 
     public function messages()

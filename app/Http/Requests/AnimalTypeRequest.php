@@ -6,6 +6,9 @@ use Illuminate\Foundation\Http\FormRequest;
 
 class AnimalTypeRequest extends FormRequest
 {
+
+    use VerifyRules;
+
     /**
      * Determine if the user is authorized to make this request.
      *
@@ -23,9 +26,11 @@ class AnimalTypeRequest extends FormRequest
      */
     public function rules()
     {
-        return [
-            "type" => "required|regex:/[a-zA-Z]/|min:3|max:40|unique:animal_types,type"
+        $rules = [
+            "type" => "required|regex:/[a-zA-Z]/|min:3|max:40|unique:animal_types,type,{$this->id}",
         ];
+
+        return $this->verifyMethod($rules);
     }
 
     public function messages()
@@ -35,7 +40,7 @@ class AnimalTypeRequest extends FormRequest
             "type.max" => 'Maximum length of 40 characters',
             "type.min" => 'Minimum length of 3 characters',
             "type.unique" => 'The type of animal already exists',
-            "type.regex" => 'only numbers are not allowed'
+            "type.regex" => 'only numbers are not allowed',
         ];
     }
 }
