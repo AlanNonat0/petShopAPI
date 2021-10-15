@@ -2,17 +2,16 @@
 
 namespace App\Services;
 
-use App\Http\Requests\AnimalTypeRequest;
-use App\Repositories\AnimalTypeRepository;
+use App\Http\Requests\OwnerRequest;
+use App\Repositories\OwnerRepository;
 
-class AnimalTypeService
+class OwnerService
 {
-
     private $repository;
 
     public function __construct()
     {
-        $this->repository = new AnimalTypeRepository();
+        $this->repository = new OwnerRepository();
     }
 
     public function showAll()
@@ -33,7 +32,7 @@ class AnimalTypeService
 
     }
 
-    public function storePetType(AnimalTypeRequest $request)
+    public function storeOwner(OwnerRequest $request)
     {
         $responseData = $this->repository->create($request->all());
 
@@ -80,9 +79,10 @@ class AnimalTypeService
         return ['response' => ['message' => 'Data has been deleted'], 'code' => 200];
     }
 
-    public function update(AnimalTypeRequest $request, $id){
+    public function update(OwnerRequest $request, $id){
 
         $updateData = $this->repository->update($request, $id);
+
 
         if($updateData === null) {
             return ['response' => ['message' => 'Data not found'], 'code' => 404];

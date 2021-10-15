@@ -19,10 +19,17 @@ class PetService
     {
         $responseData = $this->repository->all();
 
-        if ($responseData) {
-            return ['response' => ['message' => 'success', 'data' => $responseData], 'code' => 200];
+        if (!$responseData) {
+             return ['response' => ['message' => 'Internal Server Error'], 'code' => 500];
         }
-        return ['response' => ['message' => 'Data does not exist'], 'code' => 404];
+
+        if(count($responseData->toArray()) <= 0){
+            
+            return  ['response' => ['message' => 'Data does not exist'], 'code' => 404];
+        }
+
+        return ['response' => ['message' => 'success', 'data' => $responseData], 'code' => 200];
+ 
 
     }
 
@@ -30,48 +37,64 @@ class PetService
     {
         $responseData = $this->repository->create($request->all());
 
-        if ($responseData) {
-            return ['response' => ['message' => 'Success', 'data' => $responseData], 'code' => 201];
+        if (!$responseData) {
+            return ['response' => ['message' => 'the data could not be saved'], 'code' => 500];
         }
 
-        return ['response' => ['message' => 'the data could not be saved'], 'code' => 400];
-
+        return ['response' => ['message' => 'Success', 'data' => $responseData], 'code' => 201];
+        
     }
 
     public function findById($id)
     {
 
         $responseData = $this->repository->find($id);
-        
-        if ($responseData) {
-            return ['response' => ['message' => 'Success', 'data' => $responseData], 'code' => 200];
+
+        if($responseData === null) {
+            return ['response' => ['message' => 'Data not found'], 'code' => 404];
         }
 
-        return ['response' => ['message' => 'Data not found'], 'code' => 404];
+        if (!$responseData) {
+            return ['response' => ['message' => 'Internal Server Error'], 'code' => 500];
+        }
+
+
+
+        return ['response' => ['message' => 'Success', 'data' => $responseData], 'code' => 200];
+        
     }
 
     public function deleteById($id)
     {
-        if ($this->repository->find($id)) {
+        $responseData = $this->repository->find($id);
 
-            $this->repository->destroy($id);
-            return ['response' => ['message' => 'Data has been deleted', 'data' => true], 'code' => 200];
+        if($responseData === null) {
+            return ['response' => ['message' => 'Data not found'], 'code' => 404];
+        }
+        $destroy = $this->repository->destroy($id);
+
+        if (!$responseData || !$destroy) {
+            return ['response' => ['message' => 'Internal Server Error'], 'code' => 500];
         }
 
-        return ['response' => ['message' => 'Data not found', 'data' => false], 'code' => 404];
+        return ['response' => ['message' => 'Data has been deleted'], 'code' => 200];
     }
 
     public function update(PetRequest $request, $id){
+
+        $updateData = $this->repository->update($request, $id);
+
         $responseData = $this->repository->find($id);
 
-        if(!$responseData) {
+        if($responseData === null) {
             return ['response' => ['message' => 'Data not found'], 'code' => 404];
         }
+        
+        if (!$responseData) {
+            return ['response' => ['message' => 'Internal Server Error'], 'code' => 500];
+        }
 
-        $responseData->fill($request->all());
-        $responseData->save();
-
-        return ['response' => ['message' => 'Success', 'data' => $responseData], 'code' => 201];
+        return ['response' => ['message' => 'Success', 'data' => $updateData], 'code' => 201];
     }
     
 }

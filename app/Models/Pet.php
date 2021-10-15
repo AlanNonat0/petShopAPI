@@ -16,14 +16,14 @@ class Pet extends Model
      *
      * @var string[]
      */
-    protected $fillable = ['name', 'age', 'animal', 'breed', 'owner'];
+    protected $fillable = ['name', 'age', 'animal_type_id', 'breed', 'owner_id'];
 
     public function owner(){
-        return $this->hasOne(Owner::class, 'pet');
+        return $this->hasOne(Owner::class, 'id','owner_id', 'owners');
     }
 
     public function animalType(){
-        return $this->hasOne(AnimalType::class, 'pet');
+        return $this->hasOne(AnimalType::class, 'id', 'animal_type_id', 'animal_types');
     }
 
 }

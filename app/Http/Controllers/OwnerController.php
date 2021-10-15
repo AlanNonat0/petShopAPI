@@ -2,44 +2,45 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
 use App\Http\Requests\OwnerRequest;
-use App\Repositories\OwnerRepository;
+use App\Services\OwnerService;
 
 class OwnerController extends Controller
 {
-    private $repository;
+    private $service;
 
     public function __construct()
     {
-        $this->repository = new OwnerRepository();
+        $this->service = new OwnerService();
+    }
+
+    public function index()
+    {
+        $data = $this->service->showAll();
+        return response()->json($data['response'], $data['code']);
     }
 
     public function store(OwnerRequest $request)
     {
-
-      $responseData = $this->repository->create($request->all());
-       if($responseData){
-           return response()->json(['message' => 'Success', 'data' => $responseData]);
-       }
-
-       return response()->json(['message' => 'Error']);
-
-
+        $data = $this->service->storeOwner($request);
+        return response()->json($data['response'], $data['code']);
     }
 
-    function index()
+    public function find($id)
     {
-        return response()->json(['data' => $this->repository->all()]);
+        $data = $this->service->findById($id);
+        return response()->json($data['response'], $data['code']);
     }
 
-    function find($id)
+    public function update(OwnerRequest $request, $id)
     {
-        return response()->json(['data' => $this->repository->find($id)]);
+        $data = $this->service->update($request, $id);
+        return response()->json($data['response'], $data['code']);
     }
 
-    function destroy($id)
+    public function destroy($id)
     {
-        return response()->json(['data' => $this->repository->destroy($id)]);
+        $data = $this->service->deleteById($id);
+        return response()->json($data['response'], $data['code']);
     }
 }

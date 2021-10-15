@@ -17,12 +17,12 @@ class CreatePetsTable extends Migration
             $table->id();
             $table->string('name');
             $table->unsignedInteger('age');
-            $table->unsignedBigInteger('animal');
+            $table->unsignedBigInteger('animal_type_id');
             $table->string('breed');
-            $table->unsignedBigInteger('owner');
+            $table->unsignedBigInteger('owner_id');
             $table->timestamps();
-            $table->foreign('animal')->references('id')->on('animal_types');
-            $table->foreign('owner')->references('id')->on('owners');
+            $table->foreign('animal_type_id')->references('id')->on('animal_types');
+            $table->foreign('owner_id')->references('id')->on('owners');
 
         });
     }

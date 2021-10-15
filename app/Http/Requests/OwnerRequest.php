@@ -6,6 +6,9 @@ use Illuminate\Foundation\Http\FormRequest;
 
 class OwnerRequest extends FormRequest
 {
+
+    use VerifyRules;
+
     /**
      * Determine if the user is authorized to make this request.
      *

@@ -27,9 +27,9 @@ class PetRequest extends FormRequest
         $rules = [
             'name' => "required|max:40",
             'age' => "required|numeric",
-            'animal' => "required|exists:animal_types,id|integer",
+            'animal_type_id' => "required|exists:animal_types,id|integer",
             'breed' => "required",
-            'owner' => "required|exists:owners,id|integer"
+            'owner_id' => "required|exists:owners,id|integer"
         ];
 
         return $this->verifyMethod($rules);
