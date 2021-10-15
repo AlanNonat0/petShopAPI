@@ -20,9 +20,9 @@ class PetService
         $responseData = $this->repository->all();
 
         if ($responseData) {
-            return response()->json(['message' => 'success', 'data' => $responseData], 200);
+            return ['response' => ['message' => 'success', 'data' => $responseData], 'code' => 200];
         }
-        return response()->json(['message' => 'Data does not exist'], 404);
+        return ['response' => ['message' => 'Data does not exist'], 'code' => 404];
 
     }
 
@@ -31,10 +31,10 @@ class PetService
         $responseData = $this->repository->create($request->all());
 
         if ($responseData) {
-            return response()->json(['message' => 'Success', 'data' => $responseData], 201);
+            return ['response' => ['message' => 'Success', 'data' => $responseData], 'code' => 201];
         }
 
-        return response()->json(['message' => 'the data could not be saved'], 400);
+        return ['response' => ['message' => 'the data could not be saved'], 'code' => 400];
 
     }
 
@@ -44,10 +44,10 @@ class PetService
         $responseData = $this->repository->find($id);
         
         if ($responseData) {
-            return response()->json(['message' => 'Success', 'data' => $responseData], 200);
+            return ['response' => ['message' => 'Success', 'data' => $responseData], 'code' => 200];
         }
 
-        return response()->json(['message' => 'Data not found'], 404);
+        return ['response' => ['message' => 'Data not found'], 'code' => 404];
     }
 
     public function deleteById($id)
@@ -55,10 +55,10 @@ class PetService
         if ($this->repository->find($id)) {
 
             $this->repository->destroy($id);
-            return response()->json(['message' => 'Data has been deleted', 'data' => true], 200);
+            return ['response' => ['message' => 'Data has been deleted', 'data' => true], 'code' => 200];
         }
 
-        return response()->json(['message' => 'Data not found', 'data' => false], 404);
+        return ['response' => ['message' => 'Data not found', 'data' => false], 'code' => 404];
     }
 
     public function update(PetRequest $request, $id){

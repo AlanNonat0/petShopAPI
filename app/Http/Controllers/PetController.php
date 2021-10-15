@@ -22,7 +22,8 @@ class PetController extends Controller
      */
     public function index()
     {
-        return $this->service->showAll();
+        $data = $this->service->showAll();
+        return response()->json($data['response'], $data['code']);
     }
 
     /**
@@ -33,7 +34,8 @@ class PetController extends Controller
      */
     public function store(PetRequest $request)
     {
-        return $this->service->storePet($request);
+        $data = $this->service->storePet($request);
+        return response()->json($data['response'], $data['code']);
     }
 
     /**
@@ -44,14 +46,15 @@ class PetController extends Controller
      */
     public function find($id)
     {
-        return $this->service->findById($id);
+        $data = $this->service->findById($id);
+        return response()->json($data['response'], $data['code']);
     }
 
     public function update(PetRequest $request, $id)
     {
 
-        $data =   $this->service->update($request, $id);
-        return response()->json($data['response'],$data['code']);
+        $data = $this->service->update($request, $id);
+        return response()->json($data['response'], $data['code']);
     }
 
     /**
@@ -62,6 +65,7 @@ class PetController extends Controller
      */
     public function destroy($id)
     {
-        return $this->service->deleteById($id);
+        $data = $this->service->deleteById($id);
+        return response()->json($data['response'], $data['code']);
     }
 }
