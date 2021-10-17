@@ -28,4 +28,13 @@ trait VerifyRules
 
         return $dynamicsRules;
     }
+
+    public function all($key = null){
+        $data = parent::all();
+        if($this->route('id')){
+            $data['id'] = $this->route('id');
+        }
+        
+        return $data;
+    }
 }

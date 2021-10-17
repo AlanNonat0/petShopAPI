@@ -28,6 +28,7 @@ class AnimalTypeRequest extends FormRequest
     {
         $rules = [
             "type" => "required|regex:/[a-zA-Z]/|min:3|max:40|unique:animal_types,type,{$this->id}",
+            'id' => "required|numeric"
         ];
 
         return $this->verifyMethod($rules);
@@ -36,6 +37,7 @@ class AnimalTypeRequest extends FormRequest
     public function messages()
     {
         return [
+            "id.numeric" => "The parameter :attribute in the url must be numeric",
             "type.required" => 'The type field is required',
             "type.max" => 'Maximum length of 40 characters',
             "type.min" => 'Minimum length of 3 characters',

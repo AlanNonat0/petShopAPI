@@ -7,7 +7,7 @@ use Illuminate\Support\Facades\DB;
 abstract class AbstractRepository
 {
     protected $model;
-    protected $pivot = '';
+    protected $pivot;
 
     /**
      * Assigns the child's model class to the template attribute.
@@ -26,17 +26,6 @@ abstract class AbstractRepository
     {
         return app($this->model);
     }
-
-    /**
-     *  Returns the model class used by the child class
-     *
-     * @return \App\Models
-     */
-    protected function resolvePivot()
-    {
-        return app($this->model->pivot);
-    }
-
 
     /**
      * Return all data
@@ -86,7 +75,7 @@ abstract class AbstractRepository
 
             $search = $this->model->where('id',$id)->with($this->pivot)->get();
 
-            return count($search) <= 0 ? null : $search;
+            return count($search) <= 0 ? null : $search->first();
         }
         return $this->model->find($id);
 
@@ -102,10 +91,7 @@ abstract class AbstractRepository
     {
 
         $instanceModel = $this->find($id);
-// dd($instanceModel);
-        if (!$instanceModel) {
-            return false;
-        }
+
         if ($instanceModel === null) {
             return null;
         }

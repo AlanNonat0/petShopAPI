@@ -23,12 +23,12 @@ class OwnerService
         }
 
         if(count($responseData->toArray()) <= 0){
-            
+
             return  ['response' => ['message' => 'Data does not exist'], 'code' => 404];
         }
 
         return ['response' => ['message' => 'success', 'data' => $responseData], 'code' => 200];
- 
+
 
     }
 
@@ -41,7 +41,7 @@ class OwnerService
         }
 
         return ['response' => ['message' => 'Success', 'data' => $responseData], 'code' => 201];
-        
+
     }
 
     public function findById($id)
@@ -57,10 +57,8 @@ class OwnerService
             return ['response' => ['message' => 'Internal Server Error'], 'code' => 500];
         }
 
-
-
         return ['response' => ['message' => 'Success', 'data' => $responseData], 'code' => 200];
-        
+
     }
 
     public function deleteById($id)
@@ -70,6 +68,7 @@ class OwnerService
         if($responseData === null) {
             return ['response' => ['message' => 'Data not found'], 'code' => 404];
         }
+        
         $destroy = $this->repository->destroy($id);
 
         if (!$responseData || !$destroy) {
@@ -81,17 +80,18 @@ class OwnerService
 
     public function update(OwnerRequest $request, $id){
 
-        $updateData = $this->repository->update($request, $id);
+        $responseData = $this->repository->find($id);
 
-
-        if($updateData === null) {
+        if($responseData === null) {
             return ['response' => ['message' => 'Data not found'], 'code' => 404];
         }
-        
-        if (!$updateData) {
+
+        if (!$responseData) {
             return ['response' => ['message' => 'Internal Server Error'], 'code' => 500];
         }
 
+        $updateData = $this->repository->update($request, $id);
+        
         return ['response' => ['message' => 'Success', 'data' => $updateData], 'code' => 201];
     }
 

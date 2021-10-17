@@ -28,7 +28,8 @@ class OwnerRequest extends FormRequest
     {
         $rules = [
             "name" => "required|min:3|max:40",
-            "telephone" => "required|unique:owners,telephone,{$this->id}|min:8|max:11"
+            "telephone" => "required|unique:owners,telephone,{$this->id}|min:8|max:11",
+            'id' => "required|numeric"
         ];
 
         return $this->verifyMethod($rules);
@@ -38,6 +39,7 @@ class OwnerRequest extends FormRequest
     {
         return [
         "required" => "The field :attribute is required",
+        "id.numeric" => "The parameter :attribute in the url must be numeric",
         "unique" => "The :attribute already exists",
         "name.min" => "The name field needs at least 3 characters",
         "name.max" => "The name field must have a maximum of 40 characters",

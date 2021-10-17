@@ -24,12 +24,12 @@ class PetService
         }
 
         if(count($responseData->toArray()) <= 0){
-            
+
             return  ['response' => ['message' => 'Data does not exist'], 'code' => 404];
         }
 
         return ['response' => ['message' => 'success', 'data' => $responseData], 'code' => 200];
- 
+
 
     }
 
@@ -42,12 +42,11 @@ class PetService
         }
 
         return ['response' => ['message' => 'Success', 'data' => $responseData], 'code' => 201];
-        
+
     }
 
     public function findById($id)
     {
-
         $responseData = $this->repository->find($id);
 
         if($responseData === null) {
@@ -58,10 +57,8 @@ class PetService
             return ['response' => ['message' => 'Internal Server Error'], 'code' => 500];
         }
 
-
-
         return ['response' => ['message' => 'Success', 'data' => $responseData], 'code' => 200];
-        
+
     }
 
     public function deleteById($id)
@@ -82,19 +79,19 @@ class PetService
 
     public function update(PetRequest $request, $id){
 
-        $updateData = $this->repository->update($request, $id);
-
         $responseData = $this->repository->find($id);
 
         if($responseData === null) {
             return ['response' => ['message' => 'Data not found'], 'code' => 404];
         }
-        
+
         if (!$responseData) {
             return ['response' => ['message' => 'Internal Server Error'], 'code' => 500];
         }
 
+        $updateData = $this->repository->update($request, $id);
+
         return ['response' => ['message' => 'Success', 'data' => $updateData], 'code' => 201];
     }
-    
+
 }

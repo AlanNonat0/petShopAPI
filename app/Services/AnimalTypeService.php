@@ -82,16 +82,18 @@ class AnimalTypeService
 
     public function update(AnimalTypeRequest $request, $id){
 
-        $updateData = $this->repository->update($request, $id);
+        $responseData = $this->repository->find($id);
 
-        if($updateData === null) {
+        if($responseData === null) {
             return ['response' => ['message' => 'Data not found'], 'code' => 404];
         }
-        
-        if (!$updateData) {
+
+        if (!$responseData) {
             return ['response' => ['message' => 'Internal Server Error'], 'code' => 500];
         }
 
+        $updateData = $this->repository->update($request, $id);
+        
         return ['response' => ['message' => 'Success', 'data' => $updateData], 'code' => 201];
     }
 
