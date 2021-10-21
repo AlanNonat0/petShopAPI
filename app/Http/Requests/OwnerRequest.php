@@ -26,10 +26,11 @@ class OwnerRequest extends FormRequest
      */
     public function rules()
     {
+        $elementId = $this->id ? ','.$this->id : null;
         $rules = [
             "name" => "required|min:3|max:40",
-            "telephone" => "required|unique:owners,telephone,{$this->id}|min:8|max:11",
-            'id' => "required|numeric"
+            "telephone" => "required|unique:owners,telephone{$elementId}|min:8|max:11",
+            'id' => "numeric"
         ];
 
         return $this->verifyMethod($rules);

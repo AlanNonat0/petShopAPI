@@ -32,7 +32,7 @@ class PetRequest extends FormRequest
             'animal_type_id' => "required|exists:animal_types,id|integer",
             'breed' => "required",
             'owner_id' => "required|exists:owners,id|integer",
-            'id' => "required|numeric"
+            'id' => "numeric"
         ];
 
         return $this->verifyMethod($rules);

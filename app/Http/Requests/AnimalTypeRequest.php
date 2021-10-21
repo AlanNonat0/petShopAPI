@@ -26,9 +26,10 @@ class AnimalTypeRequest extends FormRequest
      */
     public function rules()
     {
+        $elementId = $this->id ? ','.$this->id : null;
         $rules = [
-            "type" => "required|regex:/[a-zA-Z]/|min:3|max:40|unique:animal_types,type,{$this->id}",
-            'id' => "required|numeric"
+            "type" => "required|regex:/[a-zA-Z]/|min:3|max:40|unique:animal_types,type{$elementId}",
+            'id' => "numeric"
         ];
 
         return $this->verifyMethod($rules);
